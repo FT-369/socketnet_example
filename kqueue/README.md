@@ -21,7 +21,7 @@ make
 
 3. `client` 프로그램 실행
 ```sh
-./client
+./client [서버에 전송하고 싶은 문자열]
 ```
 - 포트번호는 `8080`, IP 주소는 `127.0.0.1` 으로 고정
 - IP 주소를 바꾸고 싶다면 `socket.hpp` 17번째줄 `# define LOCALHOST` 변경
