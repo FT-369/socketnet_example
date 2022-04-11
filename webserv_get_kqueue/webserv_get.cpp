@@ -209,6 +209,7 @@ int main(int argc, char **argv)
 						exit(error_handling("request_handler() error", 1));
 					request[curr_event->ident] = req;
 					send_data(req->_client_write, (char *)(req->_content_type).c_str(), (char *)(req->_file_name).c_str());
+					close(curr_event->ident);
 				}
 			}
 		}
