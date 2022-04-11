@@ -10,7 +10,7 @@ CLIENT = client
 # file name
 SOURCE = utils.cpp
 SERVER_MAIN = kqueue_server.cpp
-CLIENT_MAIN = kqueue_client.cpp
+CLIENT_MAIN = client.cpp
 HEADER = socket.hpp
 OBJECT = $(SOURCE:.cpp=.o)
 

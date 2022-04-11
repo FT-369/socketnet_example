@@ -30,4 +30,4 @@ make
 
 ## 기타 참고 사항
 
-1. `client` 프로그램은 `kqueue_client.cpp` 를 기반으로 작동합니다.
+1. `client` 프로그램은 `client.cpp` 를 기반으로 작동합니다.

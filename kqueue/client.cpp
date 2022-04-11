@@ -26,7 +26,8 @@ int main(int argc, char **argv)
 
 	// send()로 서버로 메세지 보냄
 	const char	*message = argc == 1 ? "DEFAULT MESSAGE" : argv[1];
-	if ((write(socket_fd, message, strlen(message))) == -1)
+	ssize_t	write_len;
+	if ((write_len = write(socket_fd, message, strlen(message))) == -1)
 		exit(error_handling("client: send() error", 1));
 	else
 		std::cout << C_GREN << "Message to Server : " << C_NRML << message << std::endl;
@@ -34,21 +35,32 @@ int main(int argc, char **argv)
 	// recv()로 서버로 메세지 받음
 	char	buffer[BUFFER_SIZE];
 	std::cout << C_AQUA << "ECHO : " << C_NRML;
-	ssize_t	recv_len;
+	ssize_t	recv_len = 0;
+
+	while (recv_len < write_len)
+	{
+		int read_len = read(socket_fd, buffer, BUFFER_SIZE - 1);
+		if (read_len < 0)
+			exit(error_handling("client: read() error", 1));
+		buffer[read_len] = 0;
+		recv_len += read_len;
+		std::cout << buffer;
+	}
+	std::cout << std::endl;
 
 	// while ((recv_len = read(socket_fd, buffer, BUFFER_SIZE - 1)) == BUFFER_SIZE - 1) {
 	// 	buffer[BUFFER_SIZE - 1] = 0;
 	// 	std::cout << buffer;
 	// }
-	recv_len = read(socket_fd, buffer, BUFFER_SIZE - 1);
-	if (recv_len < 0) {
-		std::cout << std::endl;
-		error_handling("client: recv() error", 1);
-	}
-	else {
-		buffer[recv_len] = 0;
-		std::cout << buffer << std::endl;
-	}
+	// // recv_len = read(socket_fd, buffer, BUFFER_SIZE - 1);
+	// if (recv_len < 0) {
+	// 	std::cout << std::endl;
+	// 	error_handling("client: recv() error", 1);
+	// }
+	// else {
+	// 	buffer[recv_len] = 0;
+	// 	std::cout << buffer << std::endl;
+	// }
 
 	// client 여러개 돌리기 위함
 	ft_usleep(10000);
