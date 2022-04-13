@@ -6,22 +6,22 @@ int	error_handling(std::string error, int ret)
 	return(ret);
 }
 
-double	get_ms_time()
+std::string	get_ms_time()
 {
 	struct timeval	time;
 	double			time_ms;
 
 	gettimeofday(&time, 0);
 	time_ms = time.tv_sec * 1000 + ((double)time.tv_usec / 1000);
-	return (time_ms);
+	return (std::to_string(time_ms));
 }
 
 void	ft_usleep(double time)
 {
 	double	start;
 
-	start = get_ms_time();
-	while (time >= get_ms_time() - start)
+	start = std::stod(get_ms_time());
+	while (time >= std::stod(get_ms_time()) - start)
 	{
 		usleep(10);
 	}

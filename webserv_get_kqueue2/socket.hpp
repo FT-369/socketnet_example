@@ -24,7 +24,7 @@
 # define C_AQUA "\033[36m"
 
 int	error_handling(std::string error, int ret);
-double	get_ms_time();
+std::string	get_ms_time();
 void	ft_usleep(double time);
 char	*ft_strdup(const char *s1);
 char	*ft_strjoin(char const *s1, char const *s2);
