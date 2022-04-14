@@ -106,7 +106,6 @@ data *request_handler(int client_socket)
 	}
 
 	fclose(client_read);
-	// send_data(client_write, content_type, file_name);
 	return new data(client_write, method, content_type, file_name);
 }
 
@@ -150,8 +149,6 @@ int main(int argc, char **argv)
 
 
 	// struct timeval timeout;
-	// std::map<int, std::string> client_message;
-	// data* request;
 	std::map<int, data*> request;
 	while (true)
 	{
@@ -210,23 +207,20 @@ int main(int argc, char **argv)
 						exit(error_handling("request_handler() error", 1));
 					request[curr_event->ident] = req;
 					std::cout << "EVFILT_READ - request[" << curr_event->ident << "]: " << request[curr_event->ident] <<std::endl;
-
-					// send_data(req->_client_write, (char *)(req->_content_type).c_str(), (char *)(req->_file_name).c_str());
-					// close(curr_event->ident);
 				}
-				break;
 
 			case EVFILT_WRITE:
 				if (request.find(curr_event->ident) != request.end())
 				{
-					data* req = request[curr_event->ident];
-					if (req != 0) 
+					if (request[curr_event->ident] != 0)
+					{
+						data* req = request[curr_event->ident];
 						send_data(req->_client_write, (char *)(req->_content_type).c_str(), (char *)(req->_file_name).c_str());
-					std::cout << "EVFILT_WRITE - request[" << curr_event->ident << "]: " << request[curr_event->ident] <<std::endl;
-					request.erase(curr_event->ident);
-					close(curr_event->ident);
+						std::cout << "EVFILT_WRITE - request[" << curr_event->ident << "]: " << request[curr_event->ident] <<std::endl;
+						request.erase(curr_event->ident);
+						close(curr_event->ident);
+					}
 				}
-				break;
 			
 			default:
 				break;
